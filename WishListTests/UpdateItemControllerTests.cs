@@ -39,7 +39,7 @@ namespace WishListTests
         {
             var constructor = typeof(ItemController).GetConstructors().FirstOrDefault();
             var parameters = constructor.GetParameters();
-            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<ApplicationUser>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager<ApplicationUser>`.");
+            Assert.True((parameters.Count() == 2 && parameters[0]?.ParameterType == typeof(ApplicationDbContext) && parameters[1]?.ParameterType == typeof(UserManager<ApplicationUser>)), "`ItemController` did not contain a constructor with two parameters, first of type `ApplicationDbContext`, second of type `UserManager` with a type argument of `ApplicationUser`.");
 
             var userStore = new Mock<IUserStore<ApplicationUser>>();
             var userManager = new UserManager<ApplicationUser>(userStore.Object, null, null, null, null, null, null, null, null);
@@ -117,10 +117,7 @@ namespace WishListTests
             var filePath = ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + ".." + Path.DirectorySeparatorChar + "WishList" + Path.DirectorySeparatorChar + "Controllers" + Path.DirectorySeparatorChar + "ItemController.cs";
             Assert.True(File.Exists(filePath), @"`ItemController.cs` was not found in the `Controllers` folder.");
 
-            var itemController = (from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                                  from type in assembly.GetTypes()
-                                  where type.FullName == "WishList.Controllers.ItemController"
-                                  select type).FirstOrDefault();
+            var itemController = TestHelpers.GetUserType("WishList.Controllers.ItemController");
             Assert.True(itemController != null, "A `public` class `ItemController` was not found in the `WishList.Controllers` namespace.");
 
             var method = itemController.GetMethod("Delete", new Type[] { typeof(int) });
