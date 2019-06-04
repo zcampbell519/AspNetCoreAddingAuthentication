@@ -109,7 +109,6 @@ namespace WishListTests
 
             var results = method.Invoke(controller, new object[] { new Item() { Id = 1, Description = "Test" } }) as RedirectToActionResult;
             Assert.True(results != null, "`ItemController`'s `Create` method did not run successfully, please run locally and verify results.");
-            // Verify this sets the item / user relationship
         }
 
         [Fact(DisplayName = "Update Delete Action @update-delete-action")]
