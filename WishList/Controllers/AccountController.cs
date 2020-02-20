@@ -26,7 +26,7 @@ namespace WishList.Controllers
         public IActionResult Register(RegisterViewModel model){
             
             if(!ModelState.IsValid){
-                return View("Register");
+                return View("Register",ModelState);
             }
             var newUser = new ApplicationUser();
             newUser.Email=model.Email;
