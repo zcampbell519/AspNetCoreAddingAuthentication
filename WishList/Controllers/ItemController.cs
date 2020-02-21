@@ -23,7 +23,7 @@ namespace WishList.Controllers
         {
             var currentUser=_userManager.GetUserAsync(HttpContext.User).Result;
             
-            var model = _context.Items.ToList().Where(i=>i.User.Id == currentUser.Id);
+            var model = _context.Items.Where(i=>i.User.Id == currentUser.Id).ToList();
 
             return View("Index", model);
         }
@@ -37,6 +37,7 @@ namespace WishList.Controllers
         [HttpPost]
         public IActionResult Create(Models.Item item)
         {
+            item.User=_userManager.GetUserAsync(HttpContext.User).Result;
             _context.Items.Add(item);
             _context.SaveChanges();
             return RedirectToAction("Index");
