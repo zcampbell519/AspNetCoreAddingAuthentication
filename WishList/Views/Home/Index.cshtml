@@ -11,8 +11,8 @@
 
 @if(SignInManager.IsSignedIn(User))
 {
-    <div> 
-        <form asp-action="Logout" asp-controller="Account" method="POST">
+    <div>
+        <form asp-action="Logout" asp-controller="Account" method="post">
             <button type="submit">Logout</button>
         </form>
     </div>
